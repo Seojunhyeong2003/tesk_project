@@ -12,4 +12,4 @@ Artisan::command('inspire', function () {
 
 Schedule::call(function () {
     HolzzakWaitSecond::dispatch();
-})->everySecond();
+})->everyTenSeconds();
