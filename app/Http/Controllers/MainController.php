@@ -18,9 +18,9 @@ class MainController extends Controller
 
     function mainController(Request $request): View|InertiaResponse
     {
-        $announcement = Announcement::query()->with('user')->orderByDesc('created_at')->get();
+//        $announcement = Announcement::query()->with('user')->orderByDesc('created_at')->get();
         return Inertia::render('Welcome', [
-            'announcement' => $announcement,
+//            'announcement' => $announcement,
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
