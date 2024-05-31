@@ -30,6 +30,10 @@ return [
 
     'connections' => [
 
+        'redis' => [
+            'driver' => 'redis',
+            'connection' => 'default',
+        ],
         'reverb' => [
             'driver' => 'reverb',
             'key' => env('REVERB_APP_KEY'),

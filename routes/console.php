@@ -1,6 +1,6 @@
 <?php
 
-use App\Jobs\Game\HolzzakWaitSecond;
+use App\Events\HolzzakWaitSecondEvent;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
@@ -11,5 +11,5 @@ Artisan::command('inspire', function () {
 
 
 Schedule::call(function () {
-    HolzzakWaitSecond::dispatch();
-})->everyTenSeconds();
+    HolzzakWaitSecondEvent::dispatch();
+})->everyMinute();

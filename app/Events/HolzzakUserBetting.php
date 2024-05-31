@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -10,20 +11,27 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
-use Ramsey\Uuid\Type\Integer;
 
-class HolzzakWaitSecondEvent implements ShouldBroadcast
+class HolzzakUserBetting implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $connection = 'redis';
-    public $lossTimeout;
-
-    public function __construct()
+    /**
+     * Create a new event instance.
+     */
+    public $oddEvenForm;
+    public String $user;
+    public function __construct($oddEvenForm, $user)
     {
-        // Redis에서 남은 시간을 불러옴. 없으면 초기값 60초
-        $this->lossTimeout = Cache::get('lossTimeout', 60);
+        $this->oddEvenForm = $oddEvenForm;
+        $this->user = $user->name;
     }
 
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return array<int, \Illuminate\Broadcasting\Channel>
+     */
     public function broadcastOn(): array
     {
         return [
@@ -32,15 +40,14 @@ class HolzzakWaitSecondEvent implements ShouldBroadcast
     }
     public function broadcastWith() :array
     {
-        $this->lossTimeout -= 5;
-        Cache::put('lossTimeout', $this->lossTimeout, 3600);
         return [
-            'lossTimeout' => $this->lossTimeout
+            'betInfo' => $this->oddEvenForm,
+            'user' => $this->user
         ];
     }
 
     public function broadcastAs()
     {
-        return 'holzzak';
+        return 'bet';
     }
 }

@@ -4,6 +4,7 @@ namespace App\Jobs\Game;
 
 use App\Events\HolzzakWaitSecondEvent;
 use Carbon\Carbon;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -18,16 +19,21 @@ class HolzzakWaitSecond implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    public function broadcastOn(): array
     {
-        Log::debug(Carbon::now()." HolzzakWaitSecond RUN");
+        return [
+            new Channel('GameHolzzakChannel')
+        ];
+    }
+    public function broadcastWith() :array
+    {
+        return [
+            's' => 1
+        ];
     }
 
-    /**
-     * Execute the job.
-     */
-    public function handle(): void
+    public function broadcastAs()
     {
-        broadcast(new HolzzakWaitSecondEvent());
+        return 'gameWaitSecond';
     }
 }

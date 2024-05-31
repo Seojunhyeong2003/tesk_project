@@ -29,6 +29,18 @@ Route::middleware('auth')
     Route::get('/odd-even', 'oddEvenVisit')->name('oddEven');
     Route::get('/graph', 'graphVisit')->name('graph');
     Route::get('/mine', 'mineVisit')->name('mine');
+
 });
+
+Route::middleware('auth')
+    ->prefix('api')
+    ->name('api.')
+    ->group(function () {
+        Route::controller(GameController::class)->group(function(){
+            Route::post('/odd-even', 'oddEvenBetProc')->name('oddEven');
+            Route::post('/graph', 'graphBetProc')->name('graph');
+            Route::post('/mine', 'mineBetProc')->name('mine');
+        });
+    });
 
 require __DIR__.'/auth.php';
